@@ -36,17 +36,57 @@ Optional: define a helper function to avoid code duplication inside
 print_words() and print_top().
 
 """
-
 import sys
-#Initializing dictionary variable to be filled later
-WordDict = {}
-#Initialize variable with file alice.txt
-AliceText = open(/alice.txt)
-print(AliceText.read)
-sys.exit(0)
+
+def MakeDict(filename):
+
+  #Initializing dictionary variable to be filled later
+  WordDict = {}
+  #Initialize variable with file alice.txt
+  AliceText = open('E:\DA-Module1\WordCount\\alice.txt')
+  #Break up AliceText into individual words and add them to WordDict as keys where value will equal total times word is seen also make all words lower case
+  for line in AliceText:
+    words = line.split()
+    for word in words:
+        word = word.lower()
+  #If word not already in WordDict add it with value of 1, if it is in WordDict increase the value by one
+        if not word in WordDict:
+            WordDict[word] = 1
+        else:
+            WordDict[word] = WordDict[word] + 1
+  #Close File
+  AliceText.close()
+
+  #Return WordDict for future modules
+  return WordDict
+
+def print_words(filename):
+  """Prints one per line '<word> <count>' sorted by word for the given file."""
+  word_count = MakeDict('E:\DA-Module1\WordCount\\alice.txt')
+  words = sorted(word_count.keys())
+  for word in words:
+    print(word, word_count[word])
+
+
+def get_count(word_count_tuple):
+  """Returns the count from a dict word/count tuple  -- used for custom sort."""
+  return word_count_tuple[1]
+
+
+def print_top(filename):
+  """Prints the top count listing for the given file."""
+  word_count = MakeDict('E:\DA-Module1\WordCount\\alice.txt')
+
+  # Each item is a (word, count) tuple.
+  # Sort them so the big counts are first using key=get_count() to extract count.
+  items = sorted(word_count.items(), key=get_count, reverse=True)
+
+  # Print the first 20
+  for item in items[:20]:
+    print(item[0], item[1])
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
-def print_words('alice.txt'):
+
 
 
 
